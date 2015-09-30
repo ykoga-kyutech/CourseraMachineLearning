@@ -66,17 +66,20 @@ Theta2_grad = zeros(size(Theta2));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 1.3 Feedforward and cost function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Theta1: 25 x 401
-% Theta2: 10 x 26
-% y     : 5000 x 1
+% Theta1 has size 25 x 401
+% Theta2 has size 10 x 26
+% y has size 5000 x 1
 
-K = num_labels;
-Y = eye(K)(y,:); % [5000, 10]
+Y = zeros(m, num_labels); % [5000,10]
+
+for i = 1:m
+    Y(i,y(i)) = 1;
+endfor
 
 a1 = X;
-z2 = [ones(m, 1), X]*Theta1';
+z2 = [ones(m, 1), X] * Theta1';
 a2 = sigmoid(z2);               % [5000, 25]
-z3 = [ones(m, 1), a2]*Theta2';
+z3 = [ones(m, 1), a2] * Theta2';
 h = sigmoid(z3);                % [5000, 10]
 
 cost = -Y .* log(h) - (1 - Y) .* log(1 - h); % [5000,10]
